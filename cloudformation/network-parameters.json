@@ -1,18 +1,6 @@
 [
-    {
-        "ParameterKey": "ENVIRONMENTNAME",
-        "ParameterValue": "capstone-project"
-    },
-    {
-        "ParameterKey": "VPCCIDR",
-        "ParameterValue": "10.0.0.0/16"
-    },
-    {
-        "ParameterKey": "PUBSUBNET1CIDR",
-        "ParameterValue": "10.0.1.0/24"
-    },
-    {
-        "ParameterKey": "PUBSUBNET2CIDR",
-        "ParameterValue": "10.0.2.0/24"
-    }
+    "EnvironmentName=capstone-project",
+    "VpcCIDR=192.168.0.0/16",
+    "PublicSubnet1CIDR=192.168.0.0/18",
+    "PublicSubnet2CIDR=192.168.64.0/18"
 ]
