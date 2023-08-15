@@ -34,7 +34,7 @@ The CloudFormation Deployment can be broken down into four Parts:
 
 ## CircleCi - CI/CD Pipelines
 
-I used CircleCi to create a CI/CD Pipeline to test and deploy changes manually before they get deployed automatically to the Cluster using Ansible.
+I used CircleCi to create a CI/CD  to test and deploy changes manually before they get deployed automatically to the Cluster using Ansible.
 
 #### From Zero to Hero demonstration:
 
