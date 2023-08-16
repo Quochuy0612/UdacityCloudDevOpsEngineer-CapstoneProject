@@ -36,7 +36,12 @@ Resources:
         - Ref: InstanceSecurityGroup
       KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
-      SubnetId: !Sub ${EnvironmentName}-PUB1-SN
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: 'true'
+          DeviceIndex: '0'
+          DeleteOnTermination: 'true'
+          SubnetId:
+            Fn::ImportValue: !Sub '${EnvironmentName}-PUB1-SN'
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-management1
@@ -51,7 +56,11 @@ Resources:
         - Ref: InstanceSecurityGroup
       KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
-      SubnetId: !Sub ${EnvironmentName}-PUB2-SN
+        - AssociatePublicIpAddress: 'true'
+          DeviceIndex: '0'
+          DeleteOnTermination: 'true'
+          SubnetId:
+            Fn::ImportValue: !Sub '${EnvironmentName}-PUB2-SN'
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-management2
