@@ -1,7 +1,7 @@
 
 
 This project represents the successful completion of the last final Capstone project and the Cloud DevOps Engineer Nanodegree at Udacity.
-cccccc
+
 ## What did I learn?
 
 In this project, I applied the skills and knowledge I developed throughout the Cloud DevOps Nanodegree program. These include:
