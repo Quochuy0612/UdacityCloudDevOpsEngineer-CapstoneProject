@@ -28,30 +28,41 @@ Resources:
           ToPort: 22
           CidrIp: 0.0.0.0/0
 
-  managementHost1:
+Resources:
+  Bastion1:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: t2.micro
-      SecurityGroups:
-        - Ref: InstanceSecurityGroup
-      KeyName: !Ref SSHKeyName
+      InstanceType: t3.medium
       ImageId: !Ref amiImageId
-      SubnetId: !Sub ${EnvironmentName}-PUB1-SN
+      NetworkInterfaces:
+        - GroupSet:
+            - Fn::ImportValue: !Ref InstanceSecurityGroup
+          AssociatePublicIpAddress: 'true'
+          DeviceIndex: '0'
+          DeleteOnTermination: 'true'
+          SubnetId:
+            Fn::ImportValue: !Sub '${EnvironmentName}-PUB1-SN'
+      KeyName: !Ref SSHKeyName
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-management1
         - Key: Project
           Value: !Ref EnvironmentName
 
-  managementHost2:
+  Bastion2:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: t2.micro
-      SecurityGroups:
-        - Ref: InstanceSecurityGroup
-      KeyName: !Ref SSHKeyName
+      InstanceType: t3.medium
       ImageId: !Ref amiImageId
-      SubnetId: !Sub ${EnvironmentName}-PUB2-SN
+      NetworkInterfaces:
+        - GroupSet:
+            - Fn::ImportValue: !Ref InstanceSecurityGroup
+          AssociatePublicIpAddress: 'true'
+          DeviceIndex: '0'
+          DeleteOnTermination: 'true'
+          SubnetId:
+            Fn::ImportValue: !Sub '${EnvironmentName}-PUB2-SN'
+      KeyName: !Ref SSHKeyName
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-management2
