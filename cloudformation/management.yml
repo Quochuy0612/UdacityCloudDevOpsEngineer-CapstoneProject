@@ -7,12 +7,12 @@ Parameters:
   EnvironmentName:
     Description: An environment name that will be prefixed to resource names
     Type: String
-    Default: Udagram
+    Default: capstone-project
 
-  KeyBastionSSH:
+  SSHKeyName:
     Description: KeyName to access bastion host
     Type: 'AWS::EC2::KeyPair::KeyName'
-    Default: udagram
+    Default: udacity
   
 Mappings:
   RegionMap:
@@ -34,7 +34,7 @@ Resources:
           DeleteOnTermination: 'true'
           SubnetId:
             Fn::ImportValue: !Sub '${EnvironmentName}-PUB1-SN'
-      KeyName: !Sub ${KeyBastionSSH}
+      KeyName: !Sub ${SSHKeyName}
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-Bastion-1
@@ -52,7 +52,7 @@ Resources:
           DeleteOnTermination: 'true'
           SubnetId:
             Fn::ImportValue: !Sub '${EnvironmentName}-PUB2-SN'
-      KeyName: !Sub ${KeyBastionSSH}
+      KeyName: !Sub ${SSHKeyName}
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-Bastion-2
