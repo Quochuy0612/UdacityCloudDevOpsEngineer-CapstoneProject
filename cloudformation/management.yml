@@ -32,15 +32,11 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
+      SecurityGroups:
+        - Ref: InstanceSecurityGroup
+      KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
-      NetworkInterfaces:
-        - GroupSet:
-            - Fn::ImportValue: !Ref InstanceSecurityGroup
-          AssociatePublicIpAddress: 'true'
-          DeviceIndex: '0'
-          DeleteOnTermination: 'true'
-          SubnetId:
-            Fn::ImportValue: !Sub '${EnvironmentName}-PUB1-SN'
+      SubnetId: !Sub ${EnvironmentName}-PUB1-SN
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-management1
@@ -51,15 +47,11 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
+      SecurityGroups:
+        - Ref: InstanceSecurityGroup
+      KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
-      NetworkInterfaces:
-        - GroupSet:
-            - Fn::ImportValue: !Ref InstanceSecurityGroup
-          AssociatePublicIpAddress: 'true'
-          DeviceIndex: '0'
-          DeleteOnTermination: 'true'
-          SubnetId:
-            Fn::ImportValue: !Sub '${EnvironmentName}-PUB2-SN'
+      SubnetId: !Sub ${EnvironmentName}-PUB2-SN
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-management2
