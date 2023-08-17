@@ -1,114 +1,74 @@
-## Load Balancer Endpoint
-http://a7fc107d6227e435bbdcb554906f0fb6-1219523202.us-east-1.elb.amazonaws.com/
+# Cloud DevOps Engineer Capstone Project
 
-## Authors
+This project represents the successful completion of the last final Capstone project and the Cloud DevOps Engineer Nanodegree at Udacity.
 
-- [@tuanpa2295](https://www.github.com/tuanpa2295)
+## What did I learn?
 
-## Badges
+In this project, I applied the skills and knowledge I developed throughout the Cloud DevOps Nanodegree program. These include:
+- Using Circle CI to implement Continuous Integration and Continuous Deployment
+- Building pipelines
+- Working with Ansible and CloudFormation to deploy clusters
+- Building Kubernetes clusters
+- Building Docker containers in pipelines
+- Working in AWS
+
+## Application
+
+The Application is based on a python3 script using <a target="_blank" href="https://flask.palletsprojects.com">flask</a> to render a simple webpage in the user's browser.
+A requirements.txt is used to ensure that all needed dependencies come along with the Application.
+
+## Kubernetes Cluster
+
+I used AWS CloudFormation to deploy the Kubernetes Cluster.
+The CloudFormation Deployment can be broken down into four Parts:
+- **Networking**, to ensure new nodes can communicate with the Cluster
+- **Elastic Kubernetes Service (EKS)** is used to create a Kubernetes Cluster
+- **NodeGroup**, each NodeGroup has a set of rules to define how instances are operated and created for the EKS-Cluster
+- **Management** is needed to configure and manage the Cluster and its deployments and services. I created two management hosts for extra redundancy if one of them fails.
+
+#### List of deployed Stacks:
+![CloudFormation](./screenshots/cloudformation_stacks.PNG)
+
+#### List of deployed Instances:
+![Show Instances](./screenshots/show_instances.PNG)
+
+## CircleCi - CI/CD Pipelines
+
+I used CircleCi to create a CI/CD  to test and deploy changes manually before they get deployed automatically to the Cluster using Ansible.
+
+#### From Zero to Hero demonstration:
+
+![CircleCi Pipeline](./screenshots/circleci_pipeline.PNG)
+
+## Linting using Pylint and Hadolint
+
+Linting is used to check if the Application and Dockerfile is syntactically correct.
+This process makes sure that the code quality is always as good as possible.
+
+#### This is the output when the step fails:
+
+![Linting step fail](./screenshots/linting_step_fail.PNG)
 
 
-### CircleCI Status
-[![<CircleCI>](https://circleci.com/gh/tuanpa2295/udacity-cloud-devops-capstone.svg?style=svg)](https://github.com/tuanpa2295/udacity-cloud-devops-capstone)
+#### This is the output when the step passes:
 
-### License
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+![Linting step fail](./screenshots/linting_step_success.PNG)
 
-# Udacity Capstone Project
+## Access the Application
 
-In this project you will apply the skills and knowledge which were developed throughout the Cloud DevOps Nanodegree program. These include:
+After the EKS-Cluster has been successfully configured using Ansible within the CI/CD Pipeline, I checked the deployment and service as follows:
 
-* Working in AWS
-* Using Circle CI to implement Continuous Integration and Continuous Deployment
-* Building pipelines
-* Working with CloudFormation to deploy clusters/infrastructure
-* Building Docker containers in pipelines
-* Building Kubernetes clusters
-
-## Project Scope
-
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your CircleCI environment variables
-
-* `AWS_DEFAULT_REGION`
-* `AWS_ACCESS_KEY_ID`
-* `AWS_SECRET_ACCESS_KEY`
-* `AWS_DEFAULT_REGION`
-* `DOCKER_HUB_PASSWORD`
-* `DOCKER_HUB_USERNAME`
-
-## Folder structure
-
-| File | Description |
-| ---- | ----------- |
-| `.circleci/config.yml` | CircleCI configuration |
-| `cloudformation` | CloudFormation yaml templates for creating infrastructure |
-| `cloudformation/network.yml` | Create network VPC |
-| `cloudformation/network-params.json` | Create network VPC params |
-| `cloudformation/eks-cluster.yml` | Create EKS cluster |
-| `cloudformation/eks-cluster-params.json` | Create EKS cluster params |
-| `cloudformation/aws-eks-nodegroup.yml` | Create EKS nodes group |
-| `cloudformation/amazon-eks-nodegroup-params.json` | Create EKS nodes group params |
-| `kubernetes` | Kubernetes resource files |
-| `kubernetes/deployment.yml` | Kubernetes deployment declaration |
-| `kubernetes/loadbalancer.yml` | Kubernetes loadbalancer declaration |
-| `kubernetes/aws-authen-cm.yml` | Kubernetes configmap declaration |
-| `app.py` | main application to answer request |
-| `Dockerfile` | Dockerfile to build image|
-| `make_prediction.sh` | API call to make prediction |
-| `Makefile` | Build file of the project |
-| `requirements.txt` | Python required libraries |
-| `scripts/run-docker.sh` | Shell script to run docker container |
-| `scripts/run-kubernetes.sh` | Shell script to deploy docker container |
-| `scripts/.create-cluster.sh` | Shell script to manually create EKS cluster |
-| `scripts/create-kubeconfig.sh` | Shell script to create kubeconfig |
-| `scripts/create-stack.sh` | Shell script to create AWS CloudFormation stack|
-| `scripts/update-stack.sh` | Shell script to update AWS CloudFormation stack|
-| `scripts/delete-stack.sh` | Shell script to delete AWS CloudFormation stack|
-| `scripts/upload-docker.sh` | Shell script for uploading docker image to dockerhub repository |
-
-## Run Steps For Cloud Deployment
-* Create a DockerHub public repository
-* Run chmod 700 for each Shell scrip in `./scripts` folder
-* Run `./create-stack.sh capstone network.yml network-params.json` to create VPC infrastructure
-* Run `./create-stack.sh capstone-eks eks-cluster.yml eks-cluster-params.json` to create EKS cluster
-* Run `./create-stack.sh capstone-nodegroup aws-eks-nodegroup.yml aws-eks-nodegroup-params.json` to create EKS nodes group
-* Run `aws eks list-clusters --profile udacity` to see output like below
-`{
-    "clusters": [
-        "CapstoneEKS-0J5F5Y6TBD53"
-    ]
-}` to get cluster name
-* Replace the line `- rolearn: arn:aws:iam::876162603122:role/capstone-node-group-InstanceRole-1H3AEXO3XOL4E` in `aws-authen-cm.yml`
-* Replace cluster name to the line `123: cluster-name: CapstoneEKS-0J5F5Y6TBD53` in `./circleci/config.yml`.
-* Configure CircleCI project for the github repository
-* Done!
-
-* Some kubectl commands to check k8s resources
-```bash
-    # Fet k8s configs
-    aws eks --region us-east-1 update-kubeconfig --name CapstoneEKS-ZIuUrjFd62pq
-    # Switch context
-    kubectl config use-context arn:aws:eks:us-east-1:988918897812:cluster/CapstoneEKS-ZIuUrjFd62pq
-    # Manually apply k8s resource
-    kubectl apply -f aws-authen-cm.yml
-    # See ndoes in cluster
-    kubectl get nodes
-    # See running pods
-    kubectl get pods
-    # See services
-    kubectl get services
-    # View logs of a pod (when checking incoming request)
-    kubectl logs <POD_NAME>
-    # Port forward to forward a port in pod to host port (format: <HOST_PORT><POD_PORT>)
-    kubectl port-forward <HOST_PORT><POD_PORT>
 ```
-## Run Steps For Manual Deployment
-* Run `./scripts/create-cluster.sh`
-* Run `./scripts/create-kubeconfig.sh`
-* Run `./scripts/run-docker.sh`
-* Run `./scripts/run-kubernetes.sh`
+$ kubectl get deployments
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+capstone-project-deployment   4/4     4            4           68m
 
-Remember to replace names of DockerHub repository & cluster name to the script file before you run.
+$ kubectl get services
+NAME                       TYPE           CLUSTER-IP       EXTERNAL-IP                                                                  PORT(S)        AGE
+capstone-project-service   LoadBalancer   10.100.240.221   a9d7166a2525d405db00907ffb57de4e-1479088191.eu-central-1.elb.amazonaws.com   80:32299/TCP   69m
+kubernetes                 ClusterIP      10.100.0.1       <none>                                                                       443/TCP        80m
+```
 
+Public LB DNS: http://a9d7166a2525d405db00907ffb57de4e-1479088191.eu-central-1.elb.amazonaws.com
+
+![Access LB DNS](./screenshots/access_lb_dns_demo.PNG)
