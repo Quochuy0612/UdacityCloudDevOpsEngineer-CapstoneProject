@@ -36,9 +36,10 @@ Resources:
         - Ref: InstanceSecurityGroup
       KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
+      SubnetId: !Sub ${EnvironmentName}-PUB1-SN
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-management-1
+          Value: !Sub ${EnvironmentName}-management1
         - Key: Project
           Value: !Ref EnvironmentName
 
@@ -50,8 +51,9 @@ Resources:
         - Ref: InstanceSecurityGroup
       KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
+      SubnetId: !Sub ${EnvironmentName}-PUB2-SN
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-management-2
+          Value: !Sub ${EnvironmentName}-management2
         - Key: Project
           Value: !Ref EnvironmentName
