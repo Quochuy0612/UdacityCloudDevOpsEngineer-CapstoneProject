@@ -22,8 +22,6 @@ Resources:
     Properties:
       GroupName: !Sub ${EnvironmentName}-management-SG
       GroupDescription: Allow port 22 for management
-      VpcId:
-        Fn::ImportValue: !Sub '${EnvironmentName}-VPCID'
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 22
@@ -38,10 +36,9 @@ Resources:
         - Ref: InstanceSecurityGroup
       KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
-      SubnetId: !Sub ${EnvironmentName}-PUB1-SN
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-management1
+          Value: !Sub ${EnvironmentName}-management-1
         - Key: Project
           Value: !Ref EnvironmentName
 
@@ -53,9 +50,8 @@ Resources:
         - Ref: InstanceSecurityGroup
       KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
-      SubnetId: !Sub ${EnvironmentName}-PUB2-SN
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-management2
+          Value: !Sub ${EnvironmentName}-management-2
         - Key: Project
           Value: !Ref EnvironmentName
