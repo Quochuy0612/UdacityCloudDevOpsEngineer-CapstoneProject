@@ -23,9 +23,6 @@
 
     - setup:
 
-  roles:
-    - configure-server
-
 - name: "Authenticate AWS CLI with AWS"
   hosts: management
   user: ubuntu
