@@ -69,47 +69,47 @@ jobs:
       - run:
           name: Install dependencies
           command: yum install -y tar gzip
-      - run:
-          name: Ensure EKS network exists
-          command: |
-            aws cloudformation deploy \
-              --template-file cloudformation/network.yml \
-              --tags project=${ENVIRONMENT_NAME}-project \
-              --stack-name "${ENVIRONMENT_NAME}-eks-network" \
-              --region ${AWS_DEFAULT_REGION} \
-              --parameter-overrides file://cloudformation/network-parameters.json
-      - run:
-          name: Ensure EKS Cluster exists
-          command: |
-            aws cloudformation deploy \
-              --template-file cloudformation/cluster.yml \
-              --tags project=${ENVIRONMENT_NAME}-project \
-              --stack-name "${ENVIRONMENT_NAME}-eks-cluster" \
-              --region ${AWS_DEFAULT_REGION} \
-              --parameter-overrides file://cloudformation/cluster-parameters.json \
-              --capabilities CAPABILITY_NAMED_IAM
-          no_output_timeout: 15m
-      - run:
-          name: Ensure Nodegroup exists
-          command: |
-            aws cloudformation deploy \
-              --template-file cloudformation/nodegroup.yml \
-              --tags project=${ENVIRONMENT_NAME}-project \
-              --stack-name "${ENVIRONMENT_NAME}-eks-nodegroup" \
-              --region ${AWS_DEFAULT_REGION} \
-              --parameter-overrides file://cloudformation/nodegroup-parameters.json \
-              --capabilities CAPABILITY_NAMED_IAM
-      - run:
-          name: Ensure management instances exists
-          command: |
-            aws cloudformation deploy \
-              --template-file cloudformation/management.yml \
-              --tags project=${ENVIRONMENT_NAME}-project \
-              --stack-name "${ENVIRONMENT_NAME}-eks-management" \
-              --region ${AWS_DEFAULT_REGION} \
-              --parameter-overrides file://cloudformation/management-parameters.json \
-              --output text >> ~/checkIfDeployed.txt
-            cat ~/checkIfDeployed.txt
+      # - run:
+      #     name: Ensure EKS network exists
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file cloudformation/network.yml \
+      #         --tags project=${ENVIRONMENT_NAME}-project \
+      #         --stack-name "${ENVIRONMENT_NAME}-eks-network" \
+      #         --region ${AWS_DEFAULT_REGION} \
+      #         --parameter-overrides file://cloudformation/network-parameters.json
+      # - run:
+      #     name: Ensure EKS Cluster exists
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file cloudformation/cluster.yml \
+      #         --tags project=${ENVIRONMENT_NAME}-project \
+      #         --stack-name "${ENVIRONMENT_NAME}-eks-cluster" \
+      #         --region ${AWS_DEFAULT_REGION} \
+      #         --parameter-overrides file://cloudformation/cluster-parameters.json \
+      #         --capabilities CAPABILITY_NAMED_IAM
+      #     no_output_timeout: 15m
+      # - run:
+      #     name: Ensure Nodegroup exists
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file cloudformation/nodegroup.yml \
+      #         --tags project=${ENVIRONMENT_NAME}-project \
+      #         --stack-name "${ENVIRONMENT_NAME}-eks-nodegroup" \
+      #         --region ${AWS_DEFAULT_REGION} \
+      #         --parameter-overrides file://cloudformation/nodegroup-parameters.json \
+      #         --capabilities CAPABILITY_NAMED_IAM
+      # - run:
+      #     name: Ensure management instances exists
+      #     command: |
+      #       aws cloudformation deploy \
+      #         --template-file cloudformation/management.yml \
+      #         --tags project=${ENVIRONMENT_NAME}-project \
+      #         --stack-name "${ENVIRONMENT_NAME}-eks-management" \
+      #         --region ${AWS_DEFAULT_REGION} \
+      #         --parameter-overrides file://cloudformation/management-parameters.json \
+      #         --output text >> ~/checkIfDeployed.txt
+      #       cat ~/checkIfDeployed.txt
       - run:
           name: Extract the IPs of the management instances for Ansible
           command: |
@@ -133,7 +133,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "	da:3d:65:32:da:87:dd:08:5f:80:bf:12:29:b8:ca:71"
+            - "a2:f5:cc:b8:75:05:8b:28:45:63:85:3f:e2:98:11:38"
       - attach_workspace:
           at: ~/
       - run:
@@ -160,7 +160,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "	da:3d:65:32:da:87:dd:08:5f:80:bf:12:29:b8:ca:71"
+            - "a2:f5:cc:b8:75:05:8b:28:45:63:85:3f:e2:98:11:38"
       - attach_workspace:
           at: ~/
       - run:
@@ -210,7 +210,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "	da:3d:65:32:da:87:dd:08:5f:80:bf:12:29:b8:ca:71"
+            - "a2:f5:cc:b8:75:05:8b:28:45:63:85:3f:e2:98:11:38"
       - attach_workspace:
           at: ~/
       - run:
