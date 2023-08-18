@@ -209,8 +209,7 @@ jobs:
             cat ~/inventory.txt
             cd ansible
             ansible-playbook -i ~/inventory.txt save-elb-dns.yml
-            ls
-            # cat ~/elb_dns.txt
+            cat ~/elb_dns.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -218,17 +217,15 @@ jobs:
 
   deploy-docker:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
+      - install_awscli
+      - install_ansible
       - add_ssh_keys:
           fingerprints: [a2:f5:cc:b8:75:05:8b:28:45:63:85:3f:e2:98:11:38]
       - attach_workspace:
           at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible
       - run:
           name: Deploy newest Docker Image
           command: |
