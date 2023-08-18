@@ -21,6 +21,12 @@
       raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
       changed_when: false
 
+    - name: "Install 'unzip'"
+      apt:
+        name: [ "unzip" ]
+        state: latest
+        update_cache: yes
+        
     - setup:
 
   roles:
