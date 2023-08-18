@@ -32,8 +32,6 @@ commands:
             sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
             kubectl version --client
             echo $PATH
-            export PATH="/usr/local/bin:$PATH"
-            source ~/.bashrc
 
 jobs:
   test-build:
