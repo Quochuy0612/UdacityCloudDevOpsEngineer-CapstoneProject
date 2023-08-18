@@ -23,6 +23,6 @@
 
     - setup:
 
-    roles:
+  roles:
     - install-awscli
     - install-kubectl
