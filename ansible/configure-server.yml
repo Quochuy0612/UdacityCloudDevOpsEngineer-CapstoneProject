@@ -22,3 +22,7 @@
       changed_when: false
 
     - setup:
+
+    roles:
+    - install-awscli
+    - install-kubectl
