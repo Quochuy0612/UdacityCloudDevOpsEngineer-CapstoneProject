@@ -55,9 +55,11 @@
 
 - name: "Fetch kubectl config"
   hosts: management
-  user: ubuntu
+  remote_user: ubuntu
+  become: true
+  become_method: sudo
+  become_user: root
   gather_facts: false
-  become: yes
   vars:
     AWS_DEFAULT_REGION: "{{ lookup('env', 'AWS_DEFAULT_REGION') }}"
     ENVIRONMENT_NAME: "{{ lookup('env', 'ENVIRONMENT_NAME') }}"
