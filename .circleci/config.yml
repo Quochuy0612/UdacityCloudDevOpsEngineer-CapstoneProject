@@ -176,27 +176,12 @@ jobs:
             cat ~/inventory.txt
             cd ansible
             ansible-playbook -i ~/inventory.txt configure-server.yml
-
-  configure-cluster:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: [a2:f5:cc:b8:75:05:8b:28:45:63:85:3f:e2:98:11:38]
-      - attach_workspace:
-          at: ~/
       - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible
-      - run:
-          name: Configure server
+          name: Configure cluster
           command: |
             cat ~/inventory.txt
             cd ansible
             ansible-playbook -i ~/inventory.txt configure-cluster.yml
-
       - run:
           name: Wait for LoadBalancer's domain to become reachable
           command: |
