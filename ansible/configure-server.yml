@@ -28,7 +28,3 @@
         update_cache: yes
         
     - setup:
-
-  roles:
-    - install-awscli
-    - install-kubectl
