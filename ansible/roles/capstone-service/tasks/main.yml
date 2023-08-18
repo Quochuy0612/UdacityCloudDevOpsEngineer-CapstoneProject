@@ -1,9 +1,15 @@
-- name: Copy service configuration
-  copy:
-    src: "capstone-project-service.yaml"
-    dest: $HOME
-
-- name: Create service configuration
-  command: "./bin/kubectl apply -f capstone-project-service.yaml"
-  args:
-    chdir: $HOME
+apiVersion: v1
+kind: Service
+metadata:
+  name: capstone-project
+  labels:
+    app: capstone-project
+spec:
+  type: LoadBalancer
+  selector:
+    app: capstone-project
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000
+      protocol: TCP
