@@ -1,53 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: capstone-project
+  name: capstone-project-deployment
   labels:
-    app: capstone-project
-  namespace: default
+    app: capstone-project-app
 spec:
-  progressDeadlineSeconds: 3600
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
-      app: capstone-project
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: capstone-project-app
   template:
     metadata:
       labels:
-        app: capstone-project
+        app: capstone-project-app
     spec:
       containers:
-        - image: huydvq/capstone-project:latest
-          imagePullPolicy: Always
-          name: capstone-project
+        - name: capstone-project-app
+          image: huydvq/capstone-project
           ports:
             - containerPort: 80
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "500m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: capstone-project
-  labels:
-    app: capstone-project
-spec:
-  type: LoadBalancer
-  selector:
-    app: capstone-project
-  ports:
-    - port: 80
-      targetPort: 80
-      nodePort: 30000
-      protocol: TCP
