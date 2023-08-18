@@ -1,15 +1,9 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: capstone-project
-  labels:
-    app: capstone-project
-spec:
-  type: LoadBalancer
-  selector:
-    app: capstone-project
-  ports:
-    - port: 80
-      targetPort: 80
-      nodePort: 30000
-      protocol: TCP
+- name: Copy service configuration
+  copy:
+    src: "{{ ENVIRONMENT_NAME }}-service.yaml"
+    dest: $HOME
+
+- name: Create service configuration
+  command: "./bin/kubectl apply -f {{ ENVIRONMENT_NAME }}-service.yaml"
+  args:
+    chdir: $HOME
