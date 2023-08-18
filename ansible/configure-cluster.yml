@@ -1,9 +1,11 @@
 ---
 - name: "Configure the EKS cluster with kubectl"
   hosts: management[0]
-  user: ubuntu
+  remote_user: ubuntu
+  become: true
+  become_method: sudo
+  become_user: root
   gather_facts: false
-  become: yes
   vars:
     ENVIRONMENT_NAME: "{{ lookup('env', 'ENVIRONMENT_NAME') }}"
   roles:
