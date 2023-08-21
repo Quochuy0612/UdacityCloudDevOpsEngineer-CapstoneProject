@@ -1,4 +1,4 @@
-# Cloud DevOps Engineer Capstone Project
+# Cloud DevOps Engineer Capstone 
 
 This project represents the successful completion of the last final Capstone project and the Cloud DevOps Engineer Nanodegree at Udacity.
 
