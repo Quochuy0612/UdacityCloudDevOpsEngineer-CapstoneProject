@@ -29,11 +29,11 @@
         
     - setup:
 
-  # roles:
-  #   - install-awscli
-  #   - install-kubectl
+  roles:
+    - install-awscli
+    - install-kubectl
 
-- name: "Authenticate AWS CLI with AWS"
+# - name: "Authenticate AWS CLI with AWS"
   hosts: management
   user: ubuntu
   gather_facts: false
