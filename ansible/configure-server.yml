@@ -29,9 +29,9 @@
         
     - setup:
 
-  # roles:
-  #   - install-awscli
-  #   - install-kubectl
+  roles:
+    - install-awscli
+    - install-kubectl
 
 - name: "Authenticate AWS CLI with AWS"
   hosts: management
