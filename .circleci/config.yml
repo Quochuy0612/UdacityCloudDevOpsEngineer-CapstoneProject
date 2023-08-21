@@ -37,32 +37,23 @@ jobs:
   test-build:
     docker:
       - image: python:3.7.3-stretch
-
     steps:
       - checkout
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
-      # run build
-      # fallback to using the latest cache if no exact match is found
       - run:
           name: install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
             make install
-
-      # run lint
       - run:
           name: run lint
           command: |
             . venv/bin/activate
             make lint
-
       - save_cache:
           paths:
             - ./venv
@@ -71,21 +62,16 @@ jobs:
   upload-docker:
     docker:
       - image: circleci/golang:1.15
-
     working_directory: ~/repo
-
     steps:
       - checkout
-
       - setup_remote_docker:
           version: 19.03.13
-
       - run:
           name: Build docker container
           command: |
             docker build --tag=$DOCKER_IMAGE_NAME .
             docker image ls
-
       - run:
           name: Upload Docker to Dockerhub
           command: |
@@ -102,47 +88,47 @@ jobs:
       - run:
           name: Install dependencies
           command: yum install -y tar gzip
-      # - run:
-      #     name: Ensure EKS network exists
-      #     command: |
-      #       aws cloudformation deploy \
-      #         --template-file cloudformation/network.yml \
-      #         --tags project=${ENVIRONMENT_NAME}-project \
-      #         --stack-name "${ENVIRONMENT_NAME}-eks-network" \
-      #         --region ${AWS_DEFAULT_REGION} \
-      #         --parameter-overrides file://cloudformation/network-parameters.json
-      # - run:
-      #     name: Ensure EKS Cluster exists
-      #     command: |
-      #       aws cloudformation deploy \
-      #         --template-file cloudformation/cluster.yml \
-      #         --tags project=${ENVIRONMENT_NAME}-project \
-      #         --stack-name "${ENVIRONMENT_NAME}-eks-cluster" \
-      #         --region ${AWS_DEFAULT_REGION} \
-      #         --parameter-overrides file://cloudformation/cluster-parameters.json \
-      #         --capabilities CAPABILITY_NAMED_IAM
-      #     no_output_timeout: 15m
-      # - run:
-      #     name: Ensure Nodegroup exists
-      #     command: |
-      #       aws cloudformation deploy \
-      #         --template-file cloudformation/nodegroup.yml \
-      #         --tags project=${ENVIRONMENT_NAME}-project \
-      #         --stack-name "${ENVIRONMENT_NAME}-eks-nodegroup" \
-      #         --region ${AWS_DEFAULT_REGION} \
-      #         --parameter-overrides file://cloudformation/nodegroup-parameters.json \
-      #         --capabilities CAPABILITY_NAMED_IAM
-      # - run:
-      #     name: Ensure management instances exists
-      #     command: |
-      #       aws cloudformation deploy \
-      #         --template-file cloudformation/management.yml \
-      #         --tags project=${ENVIRONMENT_NAME}-project \
-      #         --stack-name "${ENVIRONMENT_NAME}-eks-management" \
-      #         --region ${AWS_DEFAULT_REGION} \
-      #         --parameter-overrides file://cloudformation/management-parameters.json \
-      #         --output text >> ~/checkIfDeployed.txt
-      #       cat ~/checkIfDeployed.txt
+      - run:
+          name: Ensure EKS network exists
+          command: |
+            aws cloudformation deploy \
+              --template-file cloudformation/network.yml \
+              --tags project=${ENVIRONMENT_NAME}-project \
+              --stack-name "${ENVIRONMENT_NAME}-eks-network" \
+              --region ${AWS_DEFAULT_REGION} \
+              --parameter-overrides file://cloudformation/network-parameters.json
+      - run:
+          name: Ensure EKS Cluster exists
+          command: |
+            aws cloudformation deploy \
+              --template-file cloudformation/cluster.yml \
+              --tags project=${ENVIRONMENT_NAME}-project \
+              --stack-name "${ENVIRONMENT_NAME}-eks-cluster" \
+              --region ${AWS_DEFAULT_REGION} \
+              --parameter-overrides file://cloudformation/cluster-parameters.json \
+              --capabilities CAPABILITY_NAMED_IAM
+          no_output_timeout: 15m
+      - run:
+          name: Ensure Nodegroup exists
+          command: |
+            aws cloudformation deploy \
+              --template-file cloudformation/nodegroup.yml \
+              --tags project=${ENVIRONMENT_NAME}-project \
+              --stack-name "${ENVIRONMENT_NAME}-eks-nodegroup" \
+              --region ${AWS_DEFAULT_REGION} \
+              --parameter-overrides file://cloudformation/nodegroup-parameters.json \
+              --capabilities CAPABILITY_NAMED_IAM
+      - run:
+          name: Ensure management instances exists
+          command: |
+            aws cloudformation deploy \
+              --template-file cloudformation/management.yml \
+              --tags project=${ENVIRONMENT_NAME}-project \
+              --stack-name "${ENVIRONMENT_NAME}-eks-management" \
+              --region ${AWS_DEFAULT_REGION} \
+              --parameter-overrides file://cloudformation/management-parameters.json \
+              --output text >> ~/checkIfDeployed.txt
+            cat ~/checkIfDeployed.txt
       - run:
           name: Extract the IPs of the management instances for Ansible
           command: |
@@ -196,7 +182,6 @@ jobs:
             cat ~/inventory.txt
             cd ansible
             ansible-playbook -i ~/inventory.txt configure-cluster.yml
-
       - run:
           name: Wait for LoadBalancer's domain to become reachable
           command: |
