@@ -1,4 +1,4 @@
-# Cloud DevOps Engineer Capstone 
+# Cloud DevOps Engineer Capstone Project
 
 This project represents the successful completion of the last final Capstone project and the Cloud DevOps Engineer Nanodegree at Udacity.
 
@@ -27,10 +27,10 @@ The CloudFormation Deployment can be broken down into four Parts:
 - **Management** is needed to configure and manage the Cluster and its deployments and services. I created two management hosts for extra redundancy if one of them fails.
 
 #### List of deployed Stacks:
-![CloudFormation](./screenshots/cloudformation_stacks.PNG)
+![CloudFormation](./screenshots/cloudformation_stacks.jpg)
 
 #### List of deployed Instances:
-![Show Instances](./screenshots/show_instances.PNG)
+![Show Instances](./screenshots/show_instances.jpg)
 
 ## CircleCi - CI/CD Pipelines
 
@@ -38,7 +38,7 @@ I used CircleCi to create a CI/CD  to test and deploy changes manually before th
 
 #### From Zero to Hero demonstration:
 
-![CircleCi Pipeline](./screenshots/circleci_pipeline.PNG)
+![CircleCi Pipeline](./screenshots/circleci_pipeline.jpg)
 
 ## Linting using Pylint and Hadolint
 
@@ -47,28 +47,34 @@ This process makes sure that the code quality is always as good as possible.
 
 #### This is the output when the step fails:
 
-![Linting step fail](./screenshots/linting_step_fail.PNG)
+![Linting step fail](./screenshots/run_lint_fail.jpg)
 
 
 #### This is the output when the step passes:
 
-![Linting step fail](./screenshots/linting_step_success.PNG)
+![Linting step fail](./screenshots/run_lint_success.jpg)
+
+## Project Scope
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your CircleCI environment variables
+
+* `AWS_ACCESS_KEY_ID`
+* `AWS_SECRET_ACCESS_KEY`
+* `AWS_SESSION_TOKEN`
+* `AWS_DEFAULT_REGION`
+* `DOCKERHUB_PASSWORD`
+* `DOCKERHUB_USERNAME`
+* `DOCKER_IMAGE_NAME`
+* `ENVIRONMENT_NAME`
 
 ## Access the Application
 
 After the EKS-Cluster has been successfully configured using Ansible within the CI/CD Pipeline, I checked the deployment and service as follows:
 
-```
-$ kubectl get deployments
-NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
-capstone-project-deployment   4/4     4            4           68m
+![running resources in cluster](./screenshots/running_resources_in_cluster.jpg)
 
-$ kubectl get services
-NAME                       TYPE           CLUSTER-IP       EXTERNAL-IP                                                                  PORT(S)        AGE
-capstone-project-service   LoadBalancer   10.100.240.221   a9d7166a2525d405db00907ffb57de4e-1479088191.eu-central-1.elb.amazonaws.com   80:32299/TCP   69m
-kubernetes                 ClusterIP      10.100.0.1       <none>                                                                       443/TCP        80m
-```
+Public LB DNS: http://a7b40c22bbbc14bf396849c2350651fe-1129320932.us-east-1.elb.amazonaws.com/
 
-Public LB DNS: http://a9d7166a2525d405db00907ffb57de4e-1479088191.eu-central-1.elb.amazonaws.com
-
-![Access LB DNS](./screenshots/access_lb_dns_demo.PNG)
+![Access LB DNS](./screenshots/access_lb_dns_demo.jpg)
